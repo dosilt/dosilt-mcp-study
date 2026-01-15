@@ -73,14 +73,11 @@ class MCPClient:
         return result
 
     async def stop(self):
-        """세션 종료"""
-        if not self.is_running:
-            return
-
         if self.session_ctx:
             await self.session_ctx.__aexit__(None, None, None)
-        if self.stdio_ctx:
-            await self.stdio_ctx.__aexit__(None, None, None)
+
+        if self.sse_ctx:
+            await self.sse_ctx.__aexit__(None, None, None)  # 제대로 닫힘!
 
         self.is_running = False
         print("✅ MCP 세션이 종료되었습니다!")
@@ -100,37 +97,37 @@ async def main():
         print("=" * 50)
         await client.ask("내 이름은 철수야")
 
-        # 시나리오 2: 계산하기
-        print("=" * 50)
-        print("🧮 시나리오 2: 계산하기")
-        print("=" * 50)
-        await client.ask("5 + 3을 계산해줘")
-        await client.ask("10 × 2를 계산해줘")
-        await client.ask("20 - 5를 계산해줘")
+        # # 시나리오 2: 계산하기
+        # print("=" * 50)
+        # print("🧮 시나리오 2: 계산하기")
+        # print("=" * 50)
+        # await client.ask("5 + 3을 계산해줘")
+        # await client.ask("10 × 2를 계산해줘")
+        # await client.ask("20 - 5를 계산해줘")
 
-        # 시나리오 3: 기록 확인
-        print("=" * 50)
-        print("📊 시나리오 3: 기록 확인")
-        print("=" * 50)
-        await client.ask("내 계산 기록을 보여줘")
+        # # 시나리오 3: 기록 확인
+        # print("=" * 50)
+        # print("📊 시나리오 3: 기록 확인")
+        # print("=" * 50)
+        # await client.ask("내 계산 기록을 보여줘")
 
-        # 시나리오 4: 통계 확인
-        print("=" * 50)
-        print("📈 시나리오 4: 통계 확인")
-        print("=" * 50)
-        await client.ask("통계를 보여줘")
+        # # 시나리오 4: 통계 확인
+        # print("=" * 50)
+        # print("📈 시나리오 4: 통계 확인")
+        # print("=" * 50)
+        # await client.ask("통계를 보여줘")
 
-        # 시나리오 5: 누적 합계
-        print("=" * 50)
-        print("💰 시나리오 5: 누적 합계")
-        print("=" * 50)
-        await client.ask("지금까지 계산한 결과의 총합은?")
+        # # 시나리오 5: 누적 합계
+        # print("=" * 50)
+        # print("💰 시나리오 5: 누적 합계")
+        # print("=" * 50)
+        # await client.ask("지금까지 계산한 결과의 총합은?")
 
-        # 시나리오 6: 이름 확인
-        print("=" * 50)
-        print("👤 시나리오 6: 이름 확인")
-        print("=" * 50)
-        await client.ask("내 이름이 뭐야?")
+        # # 시나리오 6: 이름 확인
+        # print("=" * 50)
+        # print("👤 시나리오 6: 이름 확인")
+        # print("=" * 50)
+        # await client.ask("내 이름이 뭐야?")
 
     finally:
         # 세션 종료

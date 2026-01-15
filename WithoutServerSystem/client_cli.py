@@ -71,14 +71,11 @@ class MCPClient:
         return response["messages"][-1].content
 
     async def stop(self):
-        """세션 종료"""
-        if not self.is_running:
-            return
-
         if self.session_ctx:
             await self.session_ctx.__aexit__(None, None, None)
-        if self.stdio_ctx:
-            await self.stdio_ctx.__aexit__(None, None, None)
+
+        if self.sse_ctx:  # ✅ 올바른 변수명
+            await self.sse_ctx.__aexit__(None, None, None)  # 제대로 닫힘!
 
         self.is_running = False
         print("✅ MCP 세션이 종료되었습니다!")
