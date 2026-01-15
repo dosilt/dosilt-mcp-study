@@ -12,8 +12,8 @@ load_dotenv()
 
 
 class MCPClient:
-    def __init__(self, model_name="Qwen", server_script="server.py"):
-        self.model = self.select_model(model_name)
+    def __init__(self, server_script="server.py"):
+        self.model = self.select_model(os.getenv("MODEL_NAME"))
 
         self.server_params = StdioServerParameters(
             command="python",
@@ -28,13 +28,13 @@ class MCPClient:
     def select_model(self, model_name):
         if "gpt" in model_name:
             model = ChatOpenAI(
-                model="gpt-4.1-mini",
+                model=model_name,
                 api_key=os.getenv("OPENAI_API_KEY"),
             )
 
         else:
             model = ChatOpenAI(
-                model="Qwen/Qwen3-32B",  # vLLM에서 로드한 모델명
+                model=model_name,  # vLLM에서 로드한 모델명
                 base_url=os.getenv("CUSTOM_LLM_URL"),  # vLLM 서버 주소
                 api_key="EMPTY",  # vLLM은 API key 불필요
                 temperature=0.7,
